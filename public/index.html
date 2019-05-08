@@ -20,7 +20,7 @@
     
   </head>
   <body>
-    <p id="load">Firebase SDK Loading&hellip;</p>
+    <!--<p id="load">Firebase SDK Loading&hellip;</p>-->
     <nav class="navbar navbar-light navbar-expand-md">
         <div class="container-fluid"><a class="navbar-brand" href="#">GO Program</a><button class="navbar-toggler" data-toggle="collapse" data-target="#navcol-1"><span class="sr-only">Toggle navigation</span><span class="navbar-toggler-icon"></span></button>
             <div class="collapse navbar-collapse" id="navcol-1">
@@ -34,12 +34,14 @@
     </nav>
     <div></div>
     <div class="contact-clean">
-        <div class="alert">Your event has been submitted</div>
+        <!-- TODO: FIX BUG WHERE ALERT SHOWS UPON WEBPAGE LOADING
+        <div class="alert">Your event has been submitted</div>--> 
         <form method="post" id="eventForm">
             <h2 class="text-center">Proof of Attendance</h2>
             
             <div class="form-group"><input class="form-control" type="text" name="name" id="name" placeholder="Full Name" required></div>
-            <div class="form-group"><input class="form-control is-invalid" type="email" name="email" id="email" placeholder="Student Email" required><small class="form-text text-danger">Please enter a correct email address.</small></div>
+            <div class="form-group"><input class="form-control" type="email" name="email" id="email" placeholder="Student Email" required></div>
+              <!--<small class="form-text text-danger">Please enter a correct email address.</small>-->
             <div class="form-group"><input class="form-control" type="text" name="stuID" id = "stuID" placeholder="Student ID"></div>
             <!--
             <input
@@ -63,7 +65,7 @@
 	
 	<!-- TODO: Add SDKs for Firebase products that you want to use
 		 https://firebase.google.com/docs/web/setup#config-web-app -->
-
+  <!--
     <script>
       document.addEventListener('DOMContentLoaded', function() {
         // // 🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥
@@ -86,6 +88,7 @@
         }
       });
     </script>
+    -->
     
   </body>
 </html>
