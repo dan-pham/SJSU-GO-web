@@ -5,17 +5,17 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
 	<title>GO</title>
     <!-- update the version number as needed -->
-    <script defer src="/__/firebase/5.11.1/firebase-app.js"></script>
+    <!-- <script defer src="/__/firebase/5.11.1/firebase-app.js"></script> -->
     <!-- include only the Firebase features as you need -->
     <!-- <script defer src="/__/firebase/5.11.1/firebase-auth.js"></script> -->
-    <script defer src="/__/firebase/5.11.1/firebase-database.js"></script>
+    <!-- <script defer src="/__/firebase/5.11.1/firebase-database.js"></script> -->
     <!-- <script defer src="/__/firebase/5.11.1/firebase-messaging.js"></script> -->
     <!-- <script defer src="/__/firebase/5.11.1/firebase-storage.js"></script> -->
     <!-- initialize the SDK after all desired features are loaded -->
-    <script defer src="/__/firebase/init.js"></script>
-    
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.3.1/css/bootstrap.min.css">
+    <!-- <script defer src="/__/firebase/init.js"></script> -->
     <link rel="stylesheet" href="./Contact-Form-Clean.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.3.1/css/bootstrap.min.css">
+    
     <!--<link rel="stylesheet" href="./styles.css">-->
     
   </head>
@@ -25,7 +25,8 @@
         <div class="container-fluid"><a class="navbar-brand" href="#">GO Program</a><button class="navbar-toggler" data-toggle="collapse" data-target="#navcol-1"><span class="sr-only">Toggle navigation</span><span class="navbar-toggler-icon"></span></button>
             <div class="collapse navbar-collapse" id="navcol-1">
                 <ul class="nav navbar-nav">
-                    <li class="nav-item" role="presentation"><a class="nav-link active" href="#">Submit Form</a></li>
+                    <li class="nav-item" role="presentation"><a class="nav-link active" href="./auth.html">User</a></li>
+                    <li class="nav-item" role="presentation"><a class="nav-link" href="#">Submit Form</a></li>
                     <li class="nav-item" role="presentation"><a class="nav-link" href="#">Contact Administrator</a></li>
                     <li class="nav-item" role="presentation"><a class="nav-link" href="#"></a></li>
                 </ul>
@@ -34,8 +35,9 @@
     </nav>
     <div></div>
     <div class="contact-clean">
-        <!-- TODO: FIX BUG WHERE ALERT SHOWS UPON WEBPAGE LOADING
-        <div class="alert">Your event has been submitted</div>--> 
+        <!-- TODO: FIX BUG WHERE ALERT SHOWS UPON WEBPAGE LOADING -->
+        <!-- <div class="alert">Your event has been submitted</div>  -->
+        <div class="alert"></div> 
         <form method="post" id="eventForm">
             <h2 class="text-center">Proof of Attendance</h2>
             
