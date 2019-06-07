@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>GO</title>
+    <!-- update the version number as needed -->
+    <!-- <script defer src="/__/firebase/5.11.1/firebase-app.js"></script> -->
+    <!-- include only the Firebase features as you need -->
+    <!-- <script defer src="/__/firebase/5.11.1/firebase-auth.js"></script> -->
+    <!-- <script defer src="/__/firebase/5.11.1/firebase-database.js"></script> -->
+    <!-- <script defer src="/__/firebase/5.11.1/firebase-messaging.js"></script> -->
+    <!-- <script defer src="/__/firebase/5.11.1/firebase-storage.js"></script> -->
+    <!-- initialize the SDK after all desired features are loaded -->
+    <!-- <script defer src="/__/firebase/init.js"></script> -->
+    <link rel="stylesheet" href="./Contact-Form-Clean.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.3.1/css/bootstrap.min.css">
+    
+    <!--<link rel="stylesheet" href="./styles.css">-->
+    
+  </head>
+  <body>
+    <!--<p id="load">Firebase SDK Loading&hellip;</p>-->
+    <nav class="navbar navbar-light navbar-expand-md">
+        <div class="container-fluid"><a class="navbar-brand" href="#">GO Program</a><button class="navbar-toggler" data-toggle="collapse" data-target="#navcol-1"><span class="sr-only">Toggle navigation</span><span class="navbar-toggler-icon"></span></button>
+            <div class="collapse navbar-collapse" id="navcol-1">
+                <ul class="nav navbar-nav">
+                    <li class="nav-item" role="presentation"><a class="nav-link" href="./auth.html">User</a></li>
+                    <li class="nav-item" role="presentation"><a class="nav-link" href="#">Submit Form</a></li>
+                    <li class="nav-item" role="presentation"><a class="nav-link" href="#">Contact Administrator</a></li>
+                    <li class="nav-item" role="presentation"><a class="nav-link" href="#"></a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <div></div>
+    <div class="contact-clean">
+        <!-- TODO: FIX BUG WHERE ALERT SHOWS UPON WEBPAGE LOADING -->
+        <!-- <div class="alert">Your event has been submitted</div>  -->
+        <div class="alert"></div> 
+        <form method="post" id="eventForm">
+            <h2 class="text-center">Proof of Attendance</h2>
+            
+            <div class="form-group"><input class="form-control" type="text" name="name" id="name" placeholder="Full Name" required></div>
+            <div class="form-group"><input class="form-control" type="email" name="email" id="email" placeholder="Student Email" required></div>
+              <!--<small class="form-text text-danger">Please enter a correct email address.</small>-->
+            <div class="form-group"><input class="form-control" type="text" name="stuID" id = "stuID" placeholder="Student ID"></div>
+            <!--
+            <input
+                type="file">-->
+            <div class="form-group"><textarea class="form-control" rows="14" name="message" id="message" placeholder="Optional: Message"></textarea></div>
+            <div class="form-group"><button class="btn btn-primary" type="submit">send </button></div>
+            
+        </form>
+    </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.3.1/js/bootstrap.bundle.min.js"></script>
+	  <!-- The core Firebase JS SDK is always required and must be listed first -->
+    <script src="https://www.gstatic.com/firebasejs/5.11.1/firebase-app.js"></script>
+    <!-- Firebase realtime database -->
+	  <script src="https://www.gstatic.com/firebasejs/5.11.1/firebase-database.js"></script>
+    <!-- JS file for sending event form to backend -->
+    <script src="main.js"></script>
+
+	
+	<!-- NOTE: When setting up authentication, restrict database -->
+	
+	<!-- TODO: Add SDKs for Firebase products that you want to use
+		 https://firebase.google.com/docs/web/setup#config-web-app -->
+  <!--
+    <script>
+      document.addEventListener('DOMContentLoaded', function() {
+        // // 🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥
+        // // The Firebase SDK is initialized and available here!
+        //
+        // firebase.auth().onAuthStateChanged(user => { });
+        // firebase.database().ref('/path/to/ref').on('value', snapshot => { });
+        // firebase.messaging().requestPermission().then(() => { });
+        // firebase.storage().ref('/path/to/ref').getDownloadURL().then(() => { });
+        //
+        // // 🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥
+
+        try {
+          let app = firebase.app();
+          let features = ['auth', 'database', 'messaging', 'storage'].filter(feature => typeof app[feature] === 'function');
+          document.getElementById('load').innerHTML = `Firebase SDK loaded with ${features.join(', ')}`;
+        } catch (e) {
+          console.error(e);
+          document.getElementById('load').innerHTML = 'Error loading the Firebase SDK, check the console.';
+        }
+      });
+    </script>
+    -->
+    
+  </body>
+</html>
