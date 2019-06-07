@@ -72,56 +72,89 @@ limitations under the License.
       }
       document.getElementById('quickstart-sign-in').disabled = true;
     }
+
+    function writeUserData(userId, email) {
+      firebase.database().ref('user/' + userId).set({
+        email: email
+      });
+    }
+
     /**
      * Handles the sign up button press.
      */
     function handleSignUp() {
-      var email = document.getElementById('email').value;
-      var password = document.getElementById('password').value;
-      if (email.length < 4) {
-        alert('Please enter an email address.');
-        return;
-      }
-      if (password.length < 4) {
-        alert('Please enter a password.');
-        return;
-      }
-      // Sign in with email and pass.
-      // [START createwithemail]
-      firebase.auth().createUserWithEmailAndPassword(email, password).catch(function(error) {
-        // Handle Errors here.
-        var errorCode = error.code;
-        var errorMessage = error.message;
-        // [START_EXCLUDE]
-        if (errorCode == 'auth/weak-password') {
-          alert('The password is too weak.');
-        } else {
-          alert(errorMessage);
+      // if (firebase.auth().currentUser) {
+      //   // [START signout]
+      //   firebase.auth().signOut();
+      //   // [END signout]
+      // } else {
+        var email = document.getElementById('email').value;
+        var password = document.getElementById('password').value;
+        if (email.length < 4) {
+          alert('Please enter an email address.');
+          return;
         }
-        console.log(error);
-        // [END_EXCLUDE]
-      })
-      
-      var user = firebase.auth().currentUser;
-      // NOTE: Why is user.uid NULL???
-      //var userId = user.uid;
-      //firebase.database().ref('user/' + userId).set(user);
-      var userRef = firebase.database().ref('user');
-      //var newUserRef = userRef.push();
-      //var user = firebase.auth().currentUser;
+        if (password.length < 4) {
+          alert('Please enter a password.');
+          return;
+        }
+        // Sign in with email and pass.
+        // [START createwithemail]
+        firebase.auth().createUserWithEmailAndPassword(email, password).catch(function(error) {
+          // Handle Errors here.
+          var errorCode = error.code;
+          var errorMessage = error.message;
+          // [START_EXCLUDE]
+          if (errorCode == 'auth/weak-password') {
+            alert('The password is too weak.');
+          } else {
+            alert(errorMessage);
+          }
+          console.log(error);
+          // [END_EXCLUDE]
+        })
 
-      // Method following firebase guide
-      //userRef.child('userID').set(uID);
-      userRef.child('email').set(email);
-      
-      //newUserRef.set({
-      //userRef.set({
-      //  email : user.email
+        
+        
+        firebase.auth().onAuthStateChanged(function(user) {
+          if(user) {
+            var uid = user.uid;
+            writeUserData(uid, email);
+            console.log("User logged in");
+          }
+          else {
+            // do nothing
+            console.log("We are here");
+          }
+        });
+        
+        //var user = firebase.auth().currentUser;
         // NOTE: Why is user.uid NULL???
-        // userID : user.uid
-      //});
-      // [END createwithemail]
-  }
+        //var userId = user.uid;
+        //firebase.database().ref('user/' + userId).set(user);
+        //var userRef = firebase.database().ref('user');
+        //var newUserRef = userRef.push();
+        //var user = firebase.auth().currentUser;
+        
+        // Method following firebase guide
+        //userRef.child('userID').set(uID);
+        //userRef.child('email').set(email);
+        
+        //newUserRef.set({
+        //userRef.set({
+          //email : user.email,
+          //emailVerified : user.emailVerified
+          // NOTE: Why is user.uid NULL???
+          // userID : user.uid
+        //});
+        // [END createwithemail]
+
+        // Following firebase read-and-write guide: https://firebase.google.com/docs/database/web/read-and-write
+      }
+    //}
+
+  
+
     /**
      * Sends an email verification to the user.
      */
@@ -182,6 +215,7 @@ limitations under the License.
           // [START_EXCLUDE]
           document.getElementById('quickstart-sign-in-status').textContent = 'Signed in';
           document.getElementById('quickstart-sign-in').textContent = 'Sign out';
+          document.getElementById('quickstart-sign-up').disabled = true;
           document.getElementById('quickstart-account-details').textContent = JSON.stringify(user, null, '  ');
           if (!emailVerified) {
             document.getElementById('quickstart-verify-email').disabled = false;
@@ -193,6 +227,7 @@ limitations under the License.
           document.getElementById('quickstart-sign-in-status').textContent = 'Signed out';
           document.getElementById('quickstart-sign-in').textContent = 'Sign in';
           document.getElementById('quickstart-account-details').textContent = 'null';
+          document.getElementById('quickstart-sign-up').disabled = false;
           // [END_EXCLUDE]
         }
         // [START_EXCLUDE silent]
