@@ -101,19 +101,25 @@ limitations under the License.
         console.log(error);
         // [END_EXCLUDE]
       })
-
-      var userRef = firebase.database().ref('user');
-      var newUserRef = userRef.push();
+      
       var user = firebase.auth().currentUser;
-      //var uID = user.uid;
-      // console.log(user.uid);
-      // userRef.child('userID').set(uID);
-      // userUser.child('email').set(email);
-      newUserRef.set({
-        email : email
+      // NOTE: Why is user.uid NULL???
+      //var userId = user.uid;
+      //firebase.database().ref('user/' + userId).set(user);
+      var userRef = firebase.database().ref('user');
+      //var newUserRef = userRef.push();
+      //var user = firebase.auth().currentUser;
+
+      // Method following firebase guide
+      //userRef.child('userID').set(uID);
+      userRef.child('email').set(email);
+      
+      //newUserRef.set({
+      //userRef.set({
+      //  email : user.email
+        // NOTE: Why is user.uid NULL???
         // userID : user.uid
-      });
-      // console.log(uID.uid);
+      //});
       // [END createwithemail]
   }
     /**
