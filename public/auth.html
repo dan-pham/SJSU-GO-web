@@ -69,6 +69,21 @@ limitations under the License.
           // [END_EXCLUDE]
         });
         // [END authwithemail]
+
+        firebase.auth().onAuthStateChanged(function(user) {
+          if(user) {
+            //var uid = user.uid;
+            //writeUserData(uid, email);
+            console.log("User logged in");
+            window.open('./dashboard.html', '_self', false);
+          }
+          else {
+            // do nothing
+            // Note: When viewing console ouput, you will see login failed message
+            // first because on click, the signin function has not yet returned
+            console.log("Log in failed");
+          }
+        });
       }
       document.getElementById('quickstart-sign-in').disabled = true;
     }
@@ -124,7 +139,7 @@ limitations under the License.
           }
           else {
             // do nothing
-            console.log("We are here");
+            console.log("Log in failed");
           }
         });
         
