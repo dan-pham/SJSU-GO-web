@@ -36,27 +36,11 @@
     </nav>
     <div></div>
     <div class="contact-clean">
-        <!-- TODO: FIX BUG WHERE ALERT SHOWS UPON WEBPAGE LOADING -->
-        <!-- <div class="alert">Your event has been submitted</div>  -->
         <div class="alert"></div> 
-        <form method="post" id="eventForm">
-            <h2 class="text-center">Proof of Attendance</h2>
-            
-            <div class="form-group"><input class="form-control" type="text" name="name" id="name" placeholder="Full Name" required></div>
-            <div class="form-group"><input class="form-control" type="email" name="email" id="email" placeholder="Student Email" required></div>
-              <!--<small class="form-text text-danger">Please enter a correct email address.</small>-->
-            <div class="form-group"><input class="form-control" type="text" name="stuID" id = "stuID" placeholder="Student ID"></div>
-            <div class="form-group">
-              <select class="form-control" name="eventType">
-                <option value="jobFair">Job Fair</option>
-                <option value="careerCenter">Career Center</option>
-                <option value="professionalEvent">Professional Event</option>
-                <option value="other">Other</option>
-              </select>
-            </div>
-            <!-- TODO: Add input file here -->
-            <div class="form-group"><textarea class="form-control" rows="14" name="message" id="message" placeholder="Event Description"></textarea></div>
-            <div class="form-group"><button class="btn btn-primary" type="submit">send </button></div>
+        <form method="post" id="feedbackForm">
+            <h2 class="text-center">Feedback</h2>
+            <div class="form-group"><textarea class="form-control" rows="14" name="message" id="message" placeholder="Feedback message"></textarea></div>
+            <div class="form-group"><button class="btn btn-primary" type="submit">Submit</button></div>
             <!-- NOTE: Try to implement auto population of student's demographics based on account details -->
         </form>
     </div>
@@ -67,11 +51,7 @@
     <!-- Firebase realtime database -->
 	  <script src="https://www.gstatic.com/firebasejs/5.11.1/firebase-database.js"></script>
     <!-- JS file for sending event form to backend -->
-    <script src="/__/firebase/5.11.1/firebase-auth.js"></script>
-    <!-- Firebase Firestore -->
-    <script src="https://www.gstatic.com/firebasejs/6.3.1/firebase-firestore.js"></script>
-
-    <script src="main.js"></script>
+    <script src="feedback.js"></script>
 
 	
 	<!-- NOTE: When setting up authentication, restrict database -->

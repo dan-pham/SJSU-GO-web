@@ -9,10 +9,45 @@ var firebaseConfig = {
     appId: "1:954003871359:web:f6c800c6a53c8e34"
 };
 
+// Initialize Cloud Firestore through Firebase
+// firebase.initializeApp({
+//     apiKey: 'AIzaSyAbPNYPqHGbcz7wat3bhc5oIbfzsi3b9Iw',
+//     authDomain: 'sjsu-go.firebaseapp.com',
+//     projectId: 'sjsu-go'
+// });
+  
+
+
 firebase.initializeApp(firebaseConfig);
+
+// Firestore reference
+var db = firebase.firestore();
 
 // Reference events collection
 var eventsRef = firebase.database().ref('events');
+
+var user = firebase.auth().currentUser;
+var name, email, uid, emailVerified;
+
+//Note: As can be seen in the console, there is slight delay to register auth state change
+firebase.auth().onAuthStateChanged(function(user) {
+    if(user != null) {
+        name = user.displayName;
+        email = user.email;
+        emailVerified = user.emailVerified;
+        uid = user.uid;
+        // console.log(name);
+        console.log(email);
+        console.log(uid);
+
+    } 
+    else {
+        console.log("No user logged in");
+        name = user.displayName;
+        email = user.email;
+        console.log(name);
+    }
+});
 
 // Listen for form submit
 document.getElementById('eventForm').addEventListener('submit', submitForm);
@@ -26,9 +61,38 @@ function submitForm(e) {
     var email = getInputVal('email');
     var stuID = getInputVal('stuID');
     var message = getInputVal('message');
+    //var uid = user.uid;
 
     //Save event
     saveEvent(stuName, email, stuID, message);
+
+    // Add a new document with set id
+    // db.collection("events").doc("test").set({
+    //     stuName: stuName,
+    //     email: email,
+    //     stuID: stuID,
+    //     message: message
+    // })
+    // .then(function() {
+    //     console.log("Document successfully written");
+    // })
+    // .catch(function(error) {
+    //     console.error("Error adding document: ", error);
+    // });
+
+    // Add a new document with generated id
+    db.collection("events").add({
+        stuName: stuName,
+        email: email,
+        stuID: stuID,
+        message: message
+    })
+    .then(function(docRef) {
+        console.log("Document written with ID: ", docRef.id);
+    })
+    .catch(function(error) {
+        console.error("Error adding document: ", error);
+    });
 
     //Show alert
     document.querySelector('.alert').style.display = 'block';
@@ -43,6 +107,7 @@ function submitForm(e) {
 
     
 }
+
 
 // Function to get get form values
 function getInputVal(id){

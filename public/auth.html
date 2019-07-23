@@ -88,9 +88,12 @@ limitations under the License.
       document.getElementById('quickstart-sign-in').disabled = true;
     }
 
-    function writeUserData(userId, email) {
+    function writeUserData(userId, email, name, major, gradYear) {
       firebase.database().ref('user/' + userId).set({
-        email: email
+        email: email,
+        name: name,
+        major: major,
+        gradYear: gradYear
       });
     }
 
@@ -104,7 +107,11 @@ limitations under the License.
       //   // [END signout]
       // } else {
         var email = document.getElementById('email').value;
+        var name = document.getElementById('name').value;
+        var major = document.getElementById('major').value;
+        var gradYear = document.getElementById('gradYear').value;
         var password = document.getElementById('password').value;
+        var stuId = document.getElementById('stuId').value;
         if (email.length < 4) {
           alert('Please enter an email address.');
           return;
@@ -129,12 +136,10 @@ limitations under the License.
           // [END_EXCLUDE]
         })
 
-        
-        
         firebase.auth().onAuthStateChanged(function(user) {
           if(user) {
             var uid = user.uid;
-            writeUserData(uid, email);
+            writeUserData(uid, email, name, stuId, major, gradYear);
             console.log("User logged in");
           }
           else {
@@ -206,6 +211,10 @@ limitations under the License.
       });
       // [END sendpasswordemail];
     }
+
+    /**
+     * 
+
     /**
      * initApp handles setting up UI event listeners and registering Firebase auth listeners:
      *  - firebase.auth().onAuthStateChanged: This listener is called when the user is signed in or
@@ -286,6 +295,21 @@ limitations under the License.
           <input class="mdl-textfield__input" style="display:inline;width:auto;" type="text" id="email" name="email" placeholder="Email"/>
           &nbsp;&nbsp;&nbsp;
           <input class="mdl-textfield__input" style="display:inline;width:auto;" type="password" id="password" name="password" placeholder="Password"/>
+          &nbsp;&nbsp;&nbsp;
+          <br/><br/>
+          <input class="mdl-textfield__input" style="display:inline;width:auto;" type="text" id="name" name="name" placeholder="Name"/>
+          &nbsp;&nbsp;&nbsp;
+          <input class="mdl-textfield__input" style="display:inline;width:auto;" type="number" min="000000000" max="999999999" id="stuId" name="stuId" placeholder="Stu ID#"/>
+          &nbsp;&nbsp;&nbsp;
+          <input class="mdl-textfield__input" style="display:inline;width:auto;" type="text" id="major" name="major" placeholder="Major"/>
+          &nbsp;&nbsp;&nbsp;
+          <div style="display:inline;width:auto;">Expected Grad Year: </div>
+          <select class="mdl-textfield__input" style="display:inline;width:auto;" id="gradYear" name="gradYear">
+            <option value="2019">2019</option>
+            <option value="2020">2020</option>
+            <option value="2021">2021</option>
+            <option value="2022">2022</option>
+          </select> 
           <br/><br/>
           <button disabled class="mdl-button mdl-js-button mdl-button--raised" id="quickstart-sign-in" name="signin">Sign In</button>
           &nbsp;&nbsp;&nbsp;
