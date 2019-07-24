@@ -51,6 +51,19 @@ firebase.auth().onAuthStateChanged(function(user) {
 
 // Listen for form submit
 document.getElementById('eventForm').addEventListener('submit', submitForm);
+// document.getElementById('getEvents').addEventListener('submit', getEvents);
+
+// Getter function for events
+// function getEvents() {
+//     //e.preventDefault();
+
+//     // Use "get" method to retrieve entire collection
+//     db.collection("events").get().then((querySnapshot) => {
+//         querySnapshot.forEach((doc) => {
+//             console.log(`${doc.id} => ${doc.data().message}`);
+//         });
+//     });    
+// }
 
 // Submit form
 function submitForm(e) {
@@ -61,9 +74,27 @@ function submitForm(e) {
     var email = getInputVal('email');
     var stuID = getInputVal('stuID');
     var message = getInputVal('message');
+    var pointValue = 0;
+    var approved = 'N';
     //var uid = user.uid;
 
-    //Save event
+    // TODO: assign point value based on selected drop down menu option
+    var eventType = getInputVal('eventType');
+
+    if(eventType == "jobFair") {
+        pointValue = 10;
+    }
+    else if(eventType == "careerCenter") {
+        pointValue = 5;
+    }
+    else if(eventType == "professionalEvent") {
+        pointValue = 10;
+    }
+    else if(eventType == "other") {
+        pointValue = 0;
+    }
+
+    //Save event in realtime database
     saveEvent(stuName, email, stuID, message);
 
     // Add a new document with set id
@@ -80,12 +111,14 @@ function submitForm(e) {
     //     console.error("Error adding document: ", error);
     // });
 
-    // Add a new document with generated id
+    // Add a new document to Firestore with generated id
     db.collection("events").add({
         stuName: stuName,
         email: email,
         stuID: stuID,
-        message: message
+        message: message,
+        pointValue: pointValue,
+        approved: approved
     })
     .then(function(docRef) {
         console.log("Document written with ID: ", docRef.id);

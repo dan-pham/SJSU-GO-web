@@ -47,7 +47,7 @@
               <!--<small class="form-text text-danger">Please enter a correct email address.</small>-->
             <div class="form-group"><input class="form-control" type="text" name="stuID" id = "stuID" placeholder="Student ID"></div>
             <div class="form-group">
-              <select class="form-control" name="eventType">
+              <select class="form-control" id="eventType" name="eventType">
                 <option value="jobFair">Job Fair</option>
                 <option value="careerCenter">Career Center</option>
                 <option value="professionalEvent">Professional Event</option>
@@ -60,6 +60,12 @@
             <!-- NOTE: Try to implement auto population of student's demographics based on account details -->
         </form>
     </div>
+    <!-- <div><button class="btn btn-primary" type="submit" id="getEvents" name="getEvents">Get Events</button></div> -->
+    
+    <!-- Get Events button only used for testing -->
+    <!-- TODO: Move getEvents button to user Dashboard view -->
+    <!-- <button onclick="getEvents()">Get Events</button> -->
+    
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.3.1/js/bootstrap.bundle.min.js"></script>
 	  <!-- The core Firebase JS SDK is always required and must be listed first -->
@@ -71,7 +77,7 @@
     <!-- Firebase Firestore -->
     <script src="https://www.gstatic.com/firebasejs/6.3.1/firebase-firestore.js"></script>
 
-    <script src="main.js"></script>
+    <script src="event.js"></script>
 
 	
 	<!-- NOTE: When setting up authentication, restrict database -->
