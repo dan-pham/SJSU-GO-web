@@ -15,8 +15,6 @@ var firebaseConfig = {
 //     authDomain: 'sjsu-go.firebaseapp.com',
 //     projectId: 'sjsu-go'
 // });
-  
-
 
 firebase.initializeApp(firebaseConfig);
 
@@ -29,28 +27,12 @@ var eventsRef = firebase.database().ref('events');
 var user = firebase.auth().currentUser;
 var name, email, uid, emailVerified;
 
-//Note: As can be seen in the console, there is slight delay to register auth state change
-firebase.auth().onAuthStateChanged(function(user) {
-    if(user != null) {
-        name = user.displayName;
-        email = user.email;
-        emailVerified = user.emailVerified;
-        uid = user.uid;
-        // console.log(name);
-        console.log(email);
-        console.log(uid);
-
-    } 
-    else {
-        console.log("No user logged in");
-        name = user.displayName;
-        email = user.email;
-        console.log(name);
-    }
-});
+// Event listeners
+document.getElementById('sign-out').addEventListener('click', toggleSignOut, false);
+document.getElementById('eventForm').addEventListener('submit', submitForm);
 
 // Listen for form submit
-document.getElementById('eventForm').addEventListener('submit', submitForm);
+// document.getElementById('eventForm').addEventListener('submit', submitForm);
 // document.getElementById('getEvents').addEventListener('submit', getEvents);
 
 // Getter function for events
@@ -156,4 +138,40 @@ function saveEvent(stuName, email, stuID, message){
         stuID: stuID,
         message: message
     });
+}
+
+// Signout user
+function toggleSignOut() {
+    firebase.auth().onAuthStateChanged(function(user) {
+        if(user) {
+            //signout
+            firebase.auth().signOut();
+        }
+    });
+}
+
+function initApp() {
+    //Note: As can be seen in the console, there is slight delay to register auth state change
+    firebase.auth().onAuthStateChanged(function(user) {
+        if(user != null) {
+            name = user.displayName;
+            email = user.email;
+            emailVerified = user.emailVerified;
+            uid = user.uid;
+            // console.log(name);
+            console.log(email);
+            console.log(uid);
+            document.getElementById("logout").style.display = "initial";
+        } 
+        else {
+            console.log("No user logged in");
+
+            // Simulate HTTP redirect
+            window.location.replace("./index.html");
+        }
+    });
+}
+
+window.onload = function() {
+    initApp();
 }
