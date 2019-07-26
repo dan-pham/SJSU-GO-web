@@ -1,5 +1,5 @@
   // Initialize Firebase
-var firebaseConfig = {
+  var firebaseConfig = {
     apiKey: "AIzaSyAbPNYPqHGbcz7wat3bhc5oIbfzsi3b9Iw",
     authDomain: "sjsu-go.firebaseapp.com",
     databaseURL: "https://sjsu-go.firebaseio.com",
@@ -11,24 +11,22 @@ var firebaseConfig = {
 
 firebase.initializeApp(firebaseConfig);
 
-// Reference events collection
-var eventsRef = firebase.database().ref('events');
+//Reference feedback collection
+var feedbacksRef = firebase.database().ref('feedbacks');
 
-// Listen for form submit
-document.getElementById('eventForm').addEventListener('submit', submitForm);
+//Listen for form submit
+document.getElementById('feedbackForm').addEventListener('submit', submitFeedback);
 
-// Submit form
-function submitForm(e) {
+// Submit feedback form
+function submitFeedback(e) {
     e.preventDefault();
 
     //Get values
-    var stuName = getInputVal('name');
-    var email = getInputVal('email');
-    var stuID = getInputVal('stuID');
     var message = getInputVal('message');
+    var userID = firebase.auth().currentUser;
 
-    //Save event
-    saveEvent(stuName, email, stuID, message);
+    //Save feedback
+    saveFeedback(message);
 
     //Show alert
     document.querySelector('.alert').style.display = 'block';
@@ -39,9 +37,10 @@ function submitForm(e) {
     },3000);
     
     //Clear form
-    document.getElementById('eventForm').reset();
+    document.getElementById('feedbackForm').reset();
 
-    
+    var myObj = { uid : userID, msg: message };
+    console.log(myObj);
 }
 
 // Function to get get form values
@@ -49,13 +48,10 @@ function getInputVal(id){
     return document.getElementById(id).value;
 }
 
-// Save event to firebase
-function saveEvent(stuName, email, stuID, message){
-    var newEventRef = eventsRef.push();
-    newEventRef.set({
-        stuName: stuName,
-        email: email,
-        stuID: stuID,
+// Save feedback to firebase
+function saveFeedback(message){
+    var newFeedbackRef = feedbacksRef.push();
+    newFeedbackRef.set({
         message: message
     });
 }
