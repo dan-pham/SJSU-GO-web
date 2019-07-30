@@ -14,6 +14,9 @@ var firebaseConfig = {
 // Firestore reference
 var db = firebase.firestore();
 
+//To use the module in your application, require it from any JavaScript file:
+var admin = require('firebase-admin');
+
 // Getter function for events
 function getEvents() {
     //e.preventDefault();
