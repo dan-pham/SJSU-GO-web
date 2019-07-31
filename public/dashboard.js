@@ -134,6 +134,23 @@ admin.auth().verifyIdToken(idToken).then((claims) => {
 });
 
 
+//Access custom claims on the client
+firebase.auth().currentUser.getIdTokenResult()
+.then((idTokenResult) => {
+      // Confirm the user is an Admin.
+      if (!!idTokenResult.claims.admin) {
+      // Show admin UI.
+      showAdminUI();
+      } else {
+      // Show regular user UI.
+      showRegularUI();
+      }
+      })
+     .catch((error) => {
+       console.log(error);
+       });
+
+
 
 
 
