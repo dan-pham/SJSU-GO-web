@@ -23,6 +23,25 @@ admin.initializeApp({
                     databaseURL: 'https://sjsu-go.firebaseio.com'
                     });
 
+
+//a credential which allows you to authenticate with a Google OAuth2 refresh token
+var refreshToken; // Get refresh token from OAuth2 flow
+admin.initializeApp({
+                    credential: admin.credential.refreshToken(refreshToken),
+                    databaseURL: 'https://sjsu-go.firebaseio.com'
+                    });
+
+//fetching users profile information by their uid:
+admin.auth().getUser(uid)
+.then(function(userRecord) {
+      // See the UserRecord reference doc for the contents of userRecord.
+      console.log('Successfully fetched user data:', userRecord.toJSON());
+      })
+.catch(function(error) {
+       console.log('Error fetching user data:', error);
+       });
+
+
 // Getter function for events
 function getEvents() {
     //e.preventDefault();
