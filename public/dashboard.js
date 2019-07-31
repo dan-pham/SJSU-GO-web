@@ -31,7 +31,7 @@ admin.initializeApp({
                     databaseURL: 'https://sjsu-go.firebaseio.com'
                     });
 
-//fetching users profile information by their uid:
+//look up users profile information by their uid:
 admin.auth().getUser(uid)
 .then(function(userRecord) {
       // See the UserRecord reference doc for the contents of userRecord.
@@ -40,6 +40,35 @@ admin.auth().getUser(uid)
 .catch(function(error) {
        console.log('Error fetching user data:', error);
        });
+
+//look up user information with an email:
+admin.auth().getUserByEmail(email)
+.then(function(userRecord) {
+      // See the UserRecord reference doc for the contents of userRecord.
+      console.log('Successfully fetched user data:', userRecord.toJSON());
+      })
+.catch(function(error) {
+       console.log('Error fetching user data:', error);
+       });
+
+//accepts an object containing the profile info to create user account
+admin.auth().createUser({
+                        email: 'user@example.com',
+                        emailVerified: false,
+                        phoneNumber: '+11234567890',
+                        password: 'secretPassword',
+                        displayName: 'John Doe',
+                        photoURL: 'http://www.example.com/12345678/photo.png',
+                        disabled: false
+                        })
+.then(function(userRecord) {
+      // See the UserRecord reference doc for the contents of userRecord.
+      console.log('Successfully created new user:', userRecord.uid);
+      })
+.catch(function(error) {
+       console.log('Error creating new user:', error);
+       });
+
 
 
 // Getter function for events
