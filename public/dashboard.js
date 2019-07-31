@@ -17,6 +17,12 @@ var db = firebase.firestore();
 //To use the module in your application, require it from any JavaScript file:
 var admin = require('firebase-admin');
 
+//Initialize Firebase Admin SDK:
+admin.initializeApp({
+                    credential: admin.credential.applicationDefault(),
+                    databaseURL: 'https://sjsu-go.firebaseio.com'
+                    });
+
 // Getter function for events
 function getEvents() {
     //e.preventDefault();
