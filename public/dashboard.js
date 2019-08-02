@@ -17,7 +17,7 @@ var db = firebase.firestore();
 //To use the module in your application, require it from any JavaScript file:
 var admin = require('firebase-admin');
 
-var serviceAccount = require('./ServiceAccountKey.json');
+var serviceAccount = require('./sjsu-go-firebase-adminsdk-5k072-43118120b1.json');
 admin.initializeApp({
                     credential: admin.credential.cert(serviceAccount)
                     });
@@ -267,6 +267,10 @@ function initApp()
             //document.getElementById('quickstart-account-details').textContent = JSON.stringify(user, null, '  ');
             //document.getElementById('Username').textContent = JSON.stringify(email, null, '  ');
             document.getElementById('welcomeMessage').textContent = 'Welcome ' + email;
+            if(!user)
+            {
+            document.getElementById('adminMessage').textContent = 'Administrator';
+            }
             document.getElementById('welcomeMessage').style.wordWrap = "break-word";
             document.getElementById('auth').style.display = "none";
             if (!emailVerified)
