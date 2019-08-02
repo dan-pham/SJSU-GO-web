@@ -25,47 +25,25 @@
         <div class="container-fluid"><a class="navbar-brand" href="#">GO Program</a><button class="navbar-toggler" data-toggle="collapse" data-target="#navcol-1"><span class="sr-only">Toggle navigation</span><span class="navbar-toggler-icon"></span></button>
             <div class="collapse navbar-collapse" id="navcol-1">
                 <ul class="nav navbar-nav">
-                    <!-- <li class="nav-item" role="presentation"><a class="nav-link" href="./auth.html">User</a></li> -->
+                    <li class="nav-item" role="presentation"><a class="nav-link" href="./auth.html">User</a></li>
                     <li class="nav-item" role="presentation"><a class="nav-link" href="./event.html">Submit Form</a></li>
                     <li class="nav-item" role="presentation"><a class="nav-link" href="./feedback.html">Submit Feedback</a></li>
                     <li class="nav-item" role="presentation"><a class="nav-link" href="#">Contact Administrator</a></li>
-                    <li class="nav-item" role="presentation" id="logout" style="display: none;"><a role="button" class="nav-link" href="./index.html" id="sign-out" >Logout</a></li>
+                    <li class="nav-item" role="presentation"><a class="nav-link" href="#"></a></li>
                 </ul>
             </div>
         </div>
     </nav>
     <div></div>
     <div class="contact-clean">
-        <!-- TODO: FIX BUG WHERE ALERT SHOWS UPON WEBPAGE LOADING -->
-        <!-- <div class="alert">Your event has been submitted</div>  -->
         <div class="alert"></div> 
-        <form method="post" id="eventForm">
-            <h2 class="text-center">Proof of Attendance</h2>
-            
-            <div class="form-group"><input class="form-control" type="text" name="name" id="name" placeholder="Full Name" required></div>
-            <div class="form-group"><input class="form-control" type="email" name="email" id="email" placeholder="Student Email" required></div>
-              <!--<small class="form-text text-danger">Please enter a correct email address.</small>-->
-            <div class="form-group"><input class="form-control" type="text" name="stuID" id = "stuID" placeholder="Student ID"></div>
-            <div class="form-group">
-              <select class="form-control" id="eventType" name="eventType">
-                <option value="jobFair">Job Fair</option>
-                <option value="careerCenter">Career Center</option>
-                <option value="professionalEvent">Professional Event</option>
-                <option value="other">Other</option>
-              </select>
-            </div>
-            <!-- TODO: Add input file here -->
-            <div class="form-group"><textarea class="form-control" rows="14" name="message" id="message" placeholder="Event Description"></textarea></div>
-            <div class="form-group"><button class="btn btn-primary" type="submit">send </button></div>
+        <form method="post" id="feedbackForm">
+            <h2 class="text-center">Feedback</h2>
+            <div class="form-group"><textarea class="form-control" rows="14" name="message" id="message" placeholder="Feedback message"></textarea></div>
+            <div class="form-group"><button class="btn btn-primary" type="submit">Submit</button></div>
             <!-- NOTE: Try to implement auto population of student's demographics based on account details -->
         </form>
     </div>
-    <!-- <div><button class="btn btn-primary" type="submit" id="getEvents" name="getEvents">Get Events</button></div> -->
-    
-    <!-- Get Events button only used for testing -->
-    <!-- TODO: Move getEvents button to user Dashboard view -->
-    <!-- <button onclick="getEvents()">Get Events</button> -->
-    
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.3.1/js/bootstrap.bundle.min.js"></script>
 	  <!-- The core Firebase JS SDK is always required and must be listed first -->
@@ -73,11 +51,7 @@
     <!-- Firebase realtime database -->
 	  <script src="https://www.gstatic.com/firebasejs/5.11.1/firebase-database.js"></script>
     <!-- JS file for sending event form to backend -->
-    <script src="/__/firebase/5.11.1/firebase-auth.js"></script>
-    <!-- Firebase Firestore -->
-    <script src="https://www.gstatic.com/firebasejs/6.3.1/firebase-firestore.js"></script>
-
-    <script src="event.js"></script>
+    <script src="feedback.js"></script>
 
 	
 	<!-- NOTE: When setting up authentication, restrict database -->
