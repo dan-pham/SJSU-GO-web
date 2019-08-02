@@ -17,6 +17,26 @@ var db = firebase.firestore();
 //To use the module in your application, require it from any JavaScript file:
 var admin = require('firebase-admin');
 
+var serviceAccount = require('./ServiceAccountKey.json');
+admin.initializeApp({
+                    credential: admin.credential.cert(serviceAccount)
+                    });
+
+const uid = 'yyWhUDZCDFRkyvYb3Asz9P6EIJF3'; //this uid is for groot at gmail.com
+const additionalClaims = {
+    premiumAccount: true
+};
+
+admin.auth().createCustomToken(uid, additionalClaims).then((cutomToken)=> {
+                                         console.log(customToken);
+                                         }
+                                         ).catch((error)=>{
+                                                 console.log('Error creating custom token', error)
+                                                 });
+
+
+
+
 //Initialize Firebase Admin SDK:
 admin.initializeApp({
                     credential: admin.credential.applicationDefault(),
@@ -157,12 +177,10 @@ firebase.auth().currentUser.getIdTokenResult()
       // Confirm the user is an Admin.
       if (!!idTokenResult.claims.admin)
       {
-      // Show admin UI.
-      showAdminUI();
+      showAdminUI();  // Show admin UI.
       } else
       {
-      // Show regular user UI.
-      showRegularUI();
+      showRegularUI(); // Show regular user UI.
       }
       })
      .catch((error) => {
