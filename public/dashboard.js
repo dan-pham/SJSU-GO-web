@@ -33,21 +33,25 @@ admin.initializeApp({
 
 //look up users profile information by their uid:
 admin.auth().getUser(uid)
-.then(function(userRecord) {
+.then(function(userRecord)
+      {
       // See the UserRecord reference doc for the contents of userRecord.
       console.log('Successfully fetched user data:', userRecord.toJSON());
       })
-.catch(function(error) {
+.catch(function(error)
+       {
        console.log('Error fetching user data:', error);
        });
 
 //look up user information with an email:
 admin.auth().getUserByEmail(email)
-.then(function(userRecord) {
+.then(function(userRecord)
+      {
       // See the UserRecord reference doc for the contents of userRecord.
       console.log('Successfully fetched user data:', userRecord.toJSON());
       })
-.catch(function(error) {
+.catch(function(error)
+       {
        console.log('Error fetching user data:', error);
        });
 
@@ -61,18 +65,21 @@ admin.auth().createUser({
                         photoURL: 'http://www.example.com/12345678/photo.png',
                         disabled: false
                         })
-.then(function(userRecord) {
+.then(function(userRecord)
+      {
       // See the UserRecord reference doc for the contents of userRecord.
       console.log('Successfully created new user:', userRecord.uid);
       })
-.catch(function(error) {
+.catch(function(error)
+       {
        console.log('Error creating new user:', error);
        });
 
 
 
 //specify a uid along with the properties to update for that user:
-admin.auth().updateUser(uid, {
+admin.auth().updateUser(uid,
+                        {
                         email: 'modifiedUser@example.com',
                         phoneNumber: '+11234567890',
                         emailVerified: true,
@@ -81,38 +88,47 @@ admin.auth().updateUser(uid, {
                         photoURL: 'http://www.example.com/12345678/photo.png',
                         disabled: true
                         })
-.then(function(userRecord) {
+.then(function(userRecord)
+      {
       // See the UserRecord reference doc for the contents of userRecord.
       console.log('Successfully updated user', userRecord.toJSON());
       })
-.catch(function(error) {
+.catch(function(error)
+       {
        console.log('Error updating user:', error);
        });
 
 
 //delete existing users by their uid:
 admin.auth().deleteUser(uid)
-.then(function() {
+.then(function()
+      {
       console.log('Successfully deleted user');
       })
-.catch(function(error) {
+.catch(function(error)
+       {
        console.log('Error deleting user:', error);
        });
 
 //list all users
-function listAllUsers(nextPageToken) {
+function listAllUsers(nextPageToken)
+{
     // List batch of users, 1000 at a time.
     admin.auth().listUsers(1000, nextPageToken)
-    .then(function(listUsersResult) {
-          listUsersResult.users.forEach(function(userRecord) {
+    .then(function(listUsersResult)
+          {
+          listUsersResult.users.forEach(function(userRecord)
+                                        {
                                         console.log('user', userRecord.toJSON());
                                         });
-          if (listUsersResult.pageToken) {
+          if (listUsersResult.pageToken)
+          {
           // List next batch of users.
           listAllUsers(listUsersResult.pageToken);
           }
           })
-    .catch(function(error) {
+    .catch(function(error)
+           {
            console.log('Error listing users:', error);
            });
 }
@@ -121,7 +137,8 @@ listAllUsers();
 
 
 // Set admin privilege on the user corresponding to uid.
-admin.auth().setCustomUserClaims(uid, {admin: true}).then(() => {
+admin.auth().setCustomUserClaims(uid, {admin: true}).then(() =>
+                                                          {
 // The new custom claims will propagate to the user's ID token the
 // next time a new one is issued.
                                                           });
@@ -138,10 +155,12 @@ admin.auth().verifyIdToken(idToken).then((claims) => {
 firebase.auth().currentUser.getIdTokenResult()
 .then((idTokenResult) => {
       // Confirm the user is an Admin.
-      if (!!idTokenResult.claims.admin) {
+      if (!!idTokenResult.claims.admin)
+      {
       // Show admin UI.
       showAdminUI();
-      } else {
+      } else
+      {
       // Show regular user UI.
       showRegularUI();
       }
@@ -156,23 +175,29 @@ firebase.auth().currentUser.getIdTokenResult()
 
 
 // Getter function for events
-function getEvents() {
+function getEvents()
+{
     //e.preventDefault();
 
     var userEmail;
     // var content = '';
 
-    firebase.auth().onAuthStateChanged(function(user) {
-        if(user) {
+    firebase.auth().onAuthStateChanged(function(user)
+    {
+        if(user)
+        {
             userEmail = user.email;
         }
     });
 
     // Use "get" method to retrieve entire collection
-    db.collection("events").get().then((querySnapshot) => {
-        querySnapshot.forEach((doc) => {
+    db.collection("events").get().then((querySnapshot) =>
+    {
+        querySnapshot.forEach((doc) =>
+        {
             // Only display events submitted by signed-in user
-            if(`${doc.data().email}` == userEmail) {
+            if(`${doc.data().email}` == userEmail)
+            {
                 console.log(`${doc.id} => ${doc.data().message}`);
                 // content += '<tr>';
                 // content += '<td>' + doc.data().message + '</td>';
@@ -197,14 +222,18 @@ function getEvents() {
     document.getElementById("getEvents").style.display = "none";
 }
 
-function initApp() {
+
+function initApp()
+{
     // Listening for auth state changes.
     // [START authstatelistener]
-    firebase.auth().onAuthStateChanged(function(user) {
+    firebase.auth().onAuthStateChanged(function(user)
+    {
         // [START_EXCLUDE silent]
         // document.getElementById('quickstart-verify-email').disabled = true;
         // [END_EXCLUDE]
-        if (user) {
+        if (user)
+        {
             // User is signed in.
             var displayName = user.displayName;
             var email = user.email;
@@ -222,12 +251,14 @@ function initApp() {
             document.getElementById('welcomeMessage').textContent = 'Welcome ' + email;
             document.getElementById('welcomeMessage').style.wordWrap = "break-word";
             document.getElementById('auth').style.display = "none";
-            if (!emailVerified) {
+            if (!emailVerified)
+            {
             document.getElementById('quickstart-verify-email').disabled = false;
             }
             document.getElementById('logout').style.display = "initial";
             // [END_EXCLUDE]
-        } else {
+        } else
+        {
             // User is signed out.
             // [START_EXCLUDE]
             // document.getElementById('quickstart-sign-in-status').textContent = 'Signed out';
@@ -252,13 +283,18 @@ function initApp() {
     // document.getElementById('quickstart-password-reset').addEventListener('click', sendPasswordReset, false);
 }
 
-window.onload = function() {
+
+window.onload = function()
+{
     initApp();
 }
 
-function toggleSignOut() {
-    firebase.auth().onAuthStateChanged(function(user) {
-        if(user) {
+function toggleSignOut()
+{
+    firebase.auth().onAuthStateChanged(function(user)
+    {
+        if(user)
+        {
             //signout
             firebase.auth().signOut();
         }
