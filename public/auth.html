@@ -76,6 +76,10 @@ limitations under the License.
             //writeUserData(uid, email);
             console.log("User logged in");
             window.open('./dashboard.html', '_self', false);
+            if (email == 'groot@gmail.com')
+            {
+               window.open('./adminDashboard.html', '_self', false);
+            }
           }
           else {
             // do nothing
