@@ -269,7 +269,7 @@ function initApp()
             document.getElementById('welcomeMessage').textContent = 'Welcome ' + email;
             if(!user)
             {
-            document.getElementById('adminMessage').textContent = 'Administrator';
+            document.getElementById('adminMessage').textContent = 'Hello, Administrator';
             }
             document.getElementById('welcomeMessage').style.wordWrap = "break-word";
             document.getElementById('auth').style.display = "none";
