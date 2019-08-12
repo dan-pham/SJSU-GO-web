@@ -72,6 +72,10 @@ function initApp() {
             var isAnonymous = user.isAnonymous;
             var uid = user.uid;
             var providerData = user.providerData;
+
+            // Debug
+            console.log(emailVerified);
+
             // [START_EXCLUDE]
             // document.getElementById('quickstart-sign-in-status').textContent = 'Signed in';
             // document.getElementById('quickstart-sign-in').textContent = 'Sign out';
@@ -81,9 +85,9 @@ function initApp() {
             document.getElementById('welcomeMessage').textContent = 'Welcome ' + email;
             document.getElementById('welcomeMessage').style.wordWrap = "break-word";
             document.getElementById('auth').style.display = "none";
-            if (!emailVerified) {
-            document.getElementById('quickstart-verify-email').disabled = false;
-            }
+            // if (!emailVerified) {
+            // document.getElementById('quickstart-verify-email').disabled = false;
+            // }
             document.getElementById('logout').style.display = "initial";
             // [END_EXCLUDE]
         } else {
