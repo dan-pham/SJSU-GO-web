@@ -94,7 +94,7 @@ function submitForm(e) {
     // });
 
     // Add a new document to Firestore with generated id
-    db.collection("events").add({
+    db.collection("event_submissions").add({
         stuName: stuName,
         email: email,
         stuID: stuID,

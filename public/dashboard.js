@@ -28,7 +28,7 @@ function getEvents() {
     });
 
     // Use "get" method to retrieve entire collection
-    db.collection("events").get().then((querySnapshot) => {
+    db.collection("event_submissions").get().then((querySnapshot) => {
         querySnapshot.forEach((doc) => {
             // Only display events submitted by signed-in user
             if(`${doc.data().email}` == userEmail) {
@@ -82,7 +82,7 @@ function initApp() {
             document.getElementById('welcomeMessage').style.wordWrap = "break-word";
             document.getElementById('auth').style.display = "none";
             if (!emailVerified) {
-            document.getElementById('quickstart-verify-email').disabled = false;
+            //document.getElementById('quickstart-verify-email').disabled = false;
             }
             document.getElementById('logout').style.display = "initial";
             // [END_EXCLUDE]

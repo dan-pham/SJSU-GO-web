@@ -16,6 +16,7 @@ var feedbacksRef = firebase.database().ref('feedbacks');
 
 //Listen for form submit
 document.getElementById('feedbackForm').addEventListener('submit', submitFeedback);
+document.getElementById('sign-out').addEventListener('click', toggleSignOut, false);
 
 // Submit feedback form
 function submitFeedback(e) {
@@ -54,4 +55,40 @@ function saveFeedback(message){
     newFeedbackRef.set({
         message: message
     });
+}
+
+// Signout user
+function toggleSignOut() {
+    firebase.auth().onAuthStateChanged(function(user) {
+        if(user) {
+            //signout
+            firebase.auth().signOut();
+        }
+    });
+}
+
+function initApp() {
+    //Note: As can be seen in the console, there is slight delay to register auth state change
+    firebase.auth().onAuthStateChanged(function(user) {
+        if(user != null) {
+            name = user.displayName;
+            email = user.email;
+            emailVerified = user.emailVerified;
+            uid = user.uid;
+            // console.log(name);
+            console.log(email);
+            console.log(uid);
+            document.getElementById("logout").style.display = "initial";
+        } 
+        else {
+            console.log("No user logged in");
+
+            // Simulate HTTP redirect
+            window.location.replace("./index.html");
+        }
+    });
+}
+
+window.onload = function() {
+    initApp();
 }
