@@ -14,8 +14,11 @@ firebase.initializeApp(firebaseConfig);
 //Reference feedback collection
 var feedbacksRef = firebase.database().ref('feedbacks');
 
-//Listen for form submit
+// Event listeners
+// Listen for form submit
 document.getElementById('feedbackForm').addEventListener('submit', submitFeedback);
+// Listen for sign-out
+document.getElementById('sign-out').addEventListener('click', toggleSignOut, false);
 
 // Submit feedback form
 function submitFeedback(e) {
@@ -53,5 +56,15 @@ function saveFeedback(message){
     var newFeedbackRef = feedbacksRef.push();
     newFeedbackRef.set({
         message: message
+    });
+}
+
+// Signout user
+function toggleSignOut() {
+    firebase.auth().onAuthStateChanged(function(user) {
+        if(user) {
+            //signout
+            firebase.auth().signOut();
+        }
     });
 }
