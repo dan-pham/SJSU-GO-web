@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>GO Dashboard</title>
+    <link rel="stylesheet" href="./Contact-Form-Clean.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.3.1/css/bootstrap.min.css">
+    <!-- Import and configure the Firebase SDK -->
+    <!-- These scripts are made available when the app is served or deployed on Firebase Hosting -->
+    <!-- If you do not serve/host your project using Firebase Hosting see https://firebase.google.com/docs/web/setup -->
+    <script src="/__/firebase/5.11.1/firebase-app.js"></script>
+    <script src="/__/firebase/5.11.1/firebase-auth.js"></script>
+    <script defer src="/__/firebase/5.11.1/firebase-database.js"></script>
+    <!-- Firebase Firestore -->
+    <script src="https://www.gstatic.com/firebasejs/6.3.1/firebase-firestore.js"></script>
+    <script src="/__/firebase/init.js"></script>
+    <script src="dashboard.js"></script>
+  </head>
+  <body style="background-color:white;">
+    <nav class="navbar navbar-light navbar-expand-md navbar-fixed-top" style="background-color: white">
+      <div class="container-fluid"><a class="navbar-brand" href="/dashboard.html">GO Dashboard</a><button class="navbar-toggler" data-toggle="collapse" data-target="#navcol-1"><span class="sr-only">Toggle navigation</span><span class="navbar-toggler-icon"></span></button>
+          <div class="collapse navbar-collapse" id="navcol-1">
+            <ul class="nav navbar-nav ml-auto">
+                 
+                  <!-- TODO: Have event form link show up only if user signed-in -->
+                  <li class="nav-item" role="presentation"><a class="btn btn-block" href="./event.html">Submit Form</a></li>
+                  <li class="nav-item" role="presentation"><a class="btn btn-block" href="./feedback.html">Submit Feedback</a></li>
+                  <li class="nav-item" role="presentation" id="logout"><a role="button" class="btn btn-block" href="./index.html" id="sign-out" >Log Out</a></li>
+              </ul>
+          </div>
+      </div>
+  </nav>
+
+
+<div class ="wrapper">
+  <div class="container" style="margin-top:10px; height: 100vh;">
+    <div class="row">
+      <div class="col-sm-2"></div>
+      <div class="col-sm-8" style="background-color:gold; border-radius: 8px; padding-top:20px; padding-right:50px; padding-bottom:30px; padding-left:50px; margin-top: 150px; word-wrap: normal;">
+        <h2 class="text-center" id="welcomeMessage">Welcome</h2>
+        <!-- <a href="./auth.html" role="button" class="btn btn-primary btn-block">Sign-In</a>
+        <a href="#" role="button" class="btn btn-primary btn-block">Sign-Up</a> -->
+        <!-- <div class="quickstart-user-details-container">
+            Firebase sign-in status: <span id="quickstart-sign-in-status">Unknown</span>
+            <div>Firebase auth <code>currentUser</code> object value:</div>
+            <pre><code id="quickstart-account-details">null</code></pre>
+             <li class="nav-item" role="presentation" id="auth"><a class="nav-link" href="./auth.html">User</a></li>
+        </div> -->
+        <div>
+            <button class="btn btn-reverse" onclick="getEvents()" id="getEvents">Show Events</button>
+
+            <table style="width:100%" id="eventTable">
+                <tr>
+                    <th>Description</th>
+                    <th>Point Value</th>
+                    <th>Approved</th>
+                </tr>
+                <tbody id="rows">
+
+                </tbody>
+            </table>
+        </div>
+      </div>
+      <div class="col-sm-2"></div>
+    </div>
+  </div>
+
+</div>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.3.1/js/bootstrap.bundle.min.js"></script>
+  <!-- Footer -->
+<footer class="page-footer font-small blue pt-4">
+
+  <!-- Footer Links -->
+  <div class="container-fluid text-center text-md-left">
+
+    <!-- Grid row -->
+    <div class="row">
+
+      <!-- Grid column -->
+      <div class="col-sm">
+
+        <!-- Content -->
+        <h5 class="text-uppercase">San Jose State University: <br> The Charles W. Davidson College of Engineering GO Program
+        
+        </h5>
+        <p>Tel: 408-924-3800  
+          <br>Fax: 408-924-3818
+          <br><a href="mailto:engineering@sjsu.edu">engineering@sjsu.edu</a>
+        </p>
+
+      </div>
+      <!-- Grid column -->
+
+      <hr class="clearfix w-100 d-md-none pb-3">
+
+      <!-- Grid column -->
+      <div class="col-sm">
+
+        <!-- Links -->
+        <h5 class="text-uppercase">Quick Links</h5>
+
+        <ul class="list-unstyled">
+          <li>
+            <a href="https://www.engineering.sjsu.edu/go-faq">FAQ</a>
+          </li>
+          <li>
+            <a href="https://one.sjsu.edu/">MySJSU</a>
+          </li>
+          <li>
+            <a href="https://engineering.sjsu.edu/">SJSU Engineering</a>
+          </li>
+          <li>
+            <a href="http://www.sjsu.edu/about/careers/events.php?utm_source=toplevel&utm_medium=301&utm_campaign=newhomepage">Careers & Jobs</a>
+          </li>
+        </ul>
+
+      </div>
+      <!-- Grid column -->
+
+
+
+
+      <div class="col-sm">
+
+        <!-- Links -->
+        <h5 class="text-uppercase">Information For</h5>
+
+        <ul class="list-unstyled">
+          <li>
+            <a href="http://alumni.sjsu.edu/s/1771/16/home.aspx?gid=2&pgid=61">Alumni</a>
+          </li>
+          <li>
+            <a href="http://www.sjsu.edu/academics/index.php?utm_source=toplevel&utm_medium=301&utm_campaign=newhomepage">Current Students</a>
+          </li>
+          <li>
+            <a href="http://giving.sjsu.edu/s/1771/16/givinghome.aspx?gid=3&pgid=61">Donors</a>
+          </li>
+          <li>
+            <a href="http://www.sjsu.edu/up/index.html?utm_source=toplevel&utm_medium=301&utm_campaign=newhomepage">Faculty & Staff</a>
+          </li>
+          <li>
+            <a href="http://www.sjsu.edu/academics/index.php?utm_source=toplevel&utm_medium=301&utm_campaign=newhomepage">Future Students</a>
+          </li>
+          <li>
+            <a href="http://www.sjsu.edu/academics/research/index.php?utm_source=toplevel&utm_medium=301&utm_campaign=newhomepage">Researchers</a>
+          </li>
+        </ul>
+
+      </div>
+
+      <!-- Grid column -->
+      <div class="col-sm">
+
+        <!-- Links -->
+        <h5 class="text-uppercase">Social</h5>
+
+        <ul class="list-unstyled">
+          <li>
+            <a href="https://www.facebook.com/SJSUEngineering">Facebook</a>
+          </li>
+          <li>
+            <a href="https://www.twitter.com/SJSUEngineering">Twitter</a>
+          </li>
+          <li>
+            <a href="https://engineering.sjsu.edu/contact">Contact</a>
+          </li>
+          <li>
+            <a href="https://sjsuone.sjsu.edu/sjsuphonebook/">Directory</a>
+          </li>
+        </ul>
+
+      </div>
+      <!-- Grid column -->
+
+    </div>
+    <!-- Grid row -->
+
+  </div>
+  <!-- Footer Links -->
+
+
+</footer>
+<!-- Footer -->
+
+<style>
+ 
+  .wrapper{
+    background-image: url(https://firebasestorage.googleapis.com/v0/b/sjsu-go.appspot.com/o/public%2Fimage%2Fgo-prog-img-1.jpg?alt=media&token=78cc9d16-d20c-46c5-8213-341f8414ce42);
+    background-repeat: no-repeat;
+    background-size: cover;
+    width:100%;
+    height: 100vh;
+  }
+
+  
+
+</style>
+ 
+  </body>
+</html>

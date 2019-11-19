@@ -1,0 +1,477 @@
+<!DOCTYPE html>
+<!--
+Copyright (c) 2016 Google Inc.
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+http://www.apache.org/licenses/LICENSE-2.0
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+-->
+<html>
+<head>
+  <meta charset=utf-8 />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Register Now!</title>
+  
+  <!-- Material Design Theming -->
+  <link rel="stylesheet" href="https://code.getmdl.io/1.1.3/material.orange-indigo.min.css">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.3.1/css/bootstrap.min.css">
+
+  <script defer src="https://code.getmdl.io/1.1.3/material.min.js"></script>
+
+  <link rel="stylesheet" href="main.css">
+
+  <!-- Import and configure the Firebase SDK -->
+  <!-- These scripts are made available when the app is served or deployed on Firebase Hosting -->
+  <!-- If you do not serve/host your project using Firebase Hosting see https://firebase.google.com/docs/web/setup -->
+  <script src="/__/firebase/5.11.1/firebase-app.js"></script>
+  <script src="/__/firebase/5.11.1/firebase-auth.js"></script>
+  <script defer src="/__/firebase/5.11.1/firebase-database.js"></script>
+  <script src="/__/firebase/init.js"></script>
+
+  <script type="text/javascript">
+    /**
+     * Handles the sign in button press.
+     */
+    function toggleSignIn() {
+      if (firebase.auth().currentUser) {
+        // [START signout]
+        firebase.auth().signOut();
+        // [END signout]
+      } else {
+        var email = document.getElementById('email').value;
+        var password = document.getElementById('password').value;
+        if (email.length < 4) {
+          alert('Please enter an email address.');
+          return;
+        }
+        if (password.length < 4) {
+          alert('Please enter a password.');
+          return;
+        }
+        // Sign in with email and pass.
+        // [START authwithemail]
+        firebase.auth().signInWithEmailAndPassword(email, password).catch(function(error) {
+          // Handle Errors here.
+          var errorCode = error.code;
+          var errorMessage = error.message;
+          // [START_EXCLUDE]
+          if (errorCode === 'auth/wrong-password') {
+            alert('Wrong password.');
+          } else {
+            alert(errorMessage);
+          }
+          console.log(error);
+          document.getElementById('quickstart-sign-in').disabled = false;
+          // [END_EXCLUDE]
+        });
+        // [END authwithemail]
+
+        firebase.auth().onAuthStateChanged(function(user) {
+          if(user) {
+            //var uid = user.uid;
+            //writeUserData(uid, email);
+            console.log("User logged in");
+            window.open('./dashboard.html', '_self', false);
+          }
+          else {
+            // do nothing
+            // Note: When viewing console ouput, you will see login failed message
+            // first because on click, the signin function has not yet returned
+            console.log("Log in failed");
+          }
+        });
+      }
+      document.getElementById('quickstart-sign-in').disabled = true;
+    }
+
+    function writeUserData(userId, email, name, major, gradYear) {
+      firebase.database().ref('user/' + userId).set({
+        email: email,
+        name: name,
+        major: major,
+        gradYear: gradYear
+      });
+    }
+
+    /**
+     * Handles the sign up button press.
+     */
+    function handleSignUp() {
+      // if (firebase.auth().currentUser) {
+      //   // [START signout]
+      //   firebase.auth().signOut();
+      //   // [END signout]
+      // } else {
+        var email = document.getElementById('email').value;
+        var name = document.getElementById('name').value;
+        var major = document.getElementById('major').value;
+        var gradYear = document.getElementById('gradYear').value;
+        var password = document.getElementById('password').value;
+        var stuId = document.getElementById('stuId').value;
+        if (email.length < 4) {
+          alert('Please enter an email address.');
+          return;
+        }
+        if (password.length < 4) {
+          alert('Please enter a password.');
+          return;
+        }
+        // Sign in with email and pass.
+        // [START createwithemail]
+        firebase.auth().createUserWithEmailAndPassword(email, password).catch(function(error) {
+          // Handle Errors here.
+          var errorCode = error.code;
+          var errorMessage = error.message;
+          // [START_EXCLUDE]
+          if (errorCode == 'auth/weak-password') {
+            alert('The password is too weak.');
+          } else {
+            alert(errorMessage);
+          }
+          console.log(error);
+          // [END_EXCLUDE]
+        })
+
+        firebase.auth().onAuthStateChanged(function(user) {
+          if(user) {
+            var uid = user.uid;
+            writeUserData(uid, email, name, stuId, major, gradYear);
+            alert("Your account has been created.");
+            console.log("User logged in");
+          }
+          else {
+            // do nothing
+            console.log("Log in failed");
+          }
+        });
+        
+        //var user = firebase.auth().currentUser;
+        // NOTE: Why is user.uid NULL???
+        //var userId = user.uid;
+        //firebase.database().ref('user/' + userId).set(user);
+        //var userRef = firebase.database().ref('user');
+        //var newUserRef = userRef.push();
+        //var user = firebase.auth().currentUser;
+        
+        // Method following firebase guide
+        //userRef.child('userID').set(uID);
+        //userRef.child('email').set(email);
+        
+        //newUserRef.set({
+        //userRef.set({
+          //email : user.email,
+          //emailVerified : user.emailVerified
+          // NOTE: Why is user.uid NULL???
+          // userID : user.uid
+        //});
+        // [END createwithemail]
+
+        // Following firebase read-and-write guide: https://firebase.google.com/docs/database/web/read-and-write
+      }
+    //}
+
+  
+
+    /**
+     * Sends an email verification to the user.
+     */
+    function sendEmailVerification() {
+      // [START sendemailverification]
+      firebase.auth().currentUser.sendEmailVerification().then(function() {
+        // Email Verification sent!
+        // [START_EXCLUDE]
+        alert('Email Verification Sent!');
+        // [END_EXCLUDE]
+      });
+      // [END sendemailverification]
+    }
+    function sendPasswordReset() {
+      var email = document.getElementById('email').value;
+      // [START sendpasswordemail]
+      firebase.auth().sendPasswordResetEmail(email).then(function() {
+        // Password Reset Email Sent!
+        // [START_EXCLUDE]
+        alert('Password Reset Email Sent!');
+        // [END_EXCLUDE]
+      }).catch(function(error) {
+        // Handle Errors here.
+        var errorCode = error.code;
+        var errorMessage = error.message;
+        // [START_EXCLUDE]
+        if (errorCode == 'auth/invalid-email') {
+          alert(errorMessage);
+        } else if (errorCode == 'auth/user-not-found') {
+          alert(errorMessage);
+        }
+        console.log(error);
+        // [END_EXCLUDE]
+      });
+      // [END sendpasswordemail];
+    }
+
+    /**
+     * 
+
+    /**
+     * initApp handles setting up UI event listeners and registering Firebase auth listeners:
+     *  - firebase.auth().onAuthStateChanged: This listener is called when the user is signed in or
+     *    out, and that is where we update the UI.
+     */
+    function initApp() {
+      // Listening for auth state changes.
+      // [START authstatelistener]
+      firebase.auth().onAuthStateChanged(function(user) {
+        // [START_EXCLUDE silent]
+        document.getElementById('quickstart-verify-email').disabled = true;
+        // [END_EXCLUDE]
+        if (user) {
+          // User is signed in.
+          var displayName = user.displayName;
+          var email = user.email;
+          var emailVerified = user.emailVerified;
+          var photoURL = user.photoURL;
+          var isAnonymous = user.isAnonymous;
+          var uid = user.uid;
+          var providerData = user.providerData;
+          // [START_EXCLUDE]
+          document.getElementById('quickstart-sign-in-status').textContent = 'Signed in';
+          document.getElementById('quickstart-sign-in').textContent = 'Sign out';
+          document.getElementById('quickstart-sign-up').disabled = true;
+          document.getElementById('quickstart-account-details').textContent = JSON.stringify(user, null, '  ');
+          if (!emailVerified) {
+            document.getElementById('quickstart-verify-email').disabled = false;
+          }
+          // [END_EXCLUDE]
+        } else {
+          // User is signed out.
+          // [START_EXCLUDE]
+          document.getElementById('quickstart-sign-in-status').textContent = 'Signed out';
+          document.getElementById('quickstart-sign-in').textContent = 'Sign in';
+          document.getElementById('quickstart-account-details').textContent = 'null';
+          document.getElementById('quickstart-sign-up').disabled = false;
+          // [END_EXCLUDE]
+        }
+        // [START_EXCLUDE silent]
+        document.getElementById('quickstart-sign-in').disabled = false;
+        // [END_EXCLUDE]
+      });
+      // [END authstatelistener]
+      document.getElementById('quickstart-sign-in').addEventListener('click', toggleSignIn, false);
+      document.getElementById('quickstart-sign-up').addEventListener('click', handleSignUp, false);
+      document.getElementById('quickstart-verify-email').addEventListener('click', sendEmailVerification, false);
+      document.getElementById('quickstart-password-reset').addEventListener('click', sendPasswordReset, false);
+    }
+    window.onload = function() {
+      initApp();
+    };
+  </script>
+</head>
+<body>
+<div class="demo-layout mdl-layout mdl-js-layout mdl-layout--fixed-header">
+
+  <!-- Header section containing title 
+  <header class="mdl-layout__header mdl-color-text--white mdl-color--light-blue-700">
+    <div class="mdl-cell mdl-cell--12-col mdl-cell--12-col-tablet mdl-grid">
+      <div class="mdl-layout__header-row mdl-cell mdl-cell--12-col mdl-cell--12-col-tablet mdl-cell--8-col-desktop">
+        <a href="/"><h3>Firebase Authentication</h3></a>
+      </div>
+    </div>
+  </header> -->
+  <nav class="navbar navbar-light navbar-expand-md navbar-fixed-top">
+    <div class="container-fluid"><a class="navbar-brand" href="/index.html">GO Dashboard</a><button class="navbar-toggler" data-toggle="collapse" data-target="#navcol-1"><span class="sr-only">Toggle navigation</span><span class="navbar-toggler-icon"></span></button>
+        <div class="collapse navbar-collapse" id="navcol-1">
+            <ul class="nav navbar-nav ml-auto">
+                <!-- <li class="nav-item" role="presentation"><a class="nav-link" href="./auth.html">User</a></li>
+                <li class="nav-item" role="presentation"><a class="nav-link" href="./event.html">Submit Form</a></li>
+                <li class="nav-item" role="presentation"><a class="nav-link" href="./feedback.html">Submit Feedback</a></li> 
+                <li class="nav-item" role="presentation"><a class="nav-link" href="#">Contact Administrator</a></li>-->
+                <li class="nav-item" role="presentation"><a href="/register.html" class="btn btn-block" role="button">Register</a></li>
+                <li class="nav-item" role="presentation"><a href="./auth.html" class="btn btn-block" role="button">Log in</a></li>
+                <!-- <li class="nav-item" role="presentation"><a class="nav-link" href="#"></a></li> -->
+            </ul>
+        </div>
+    </div>
+  </nav>
+
+  <main style="text-align: center;" class="mdl-layout__content mdl-color--grey-100">
+    <div class="mdl-cell mdl-cell--12-col mdl-cell--12-col-tablet mdl-grid">
+
+      <!-- Container for the demo -->
+      <div class="mdl-card mdl-shadow--2dp mdl-cell mdl-cell--12-col mdl-cell--12-col-tablet mdl-cell--12-col-desktop">
+        <div class="mdl-card__title mdl-color--light-blue-600 mdl-color-text--white">
+          <h2 style ="text-align: center;padding: 0;"class="mdl-card__title-text">Register</h2>
+        </div>
+        <div class="mdl-card__supporting-text mdl-color-text--grey-600">
+          <p>Please fill out entire form and press sign up when completed</p>
+
+          <input class="mdl-textfield__input" style="display:inline;width:auto;" type="text" id="email" name="email" placeholder="Email"/>
+          
+          <br>
+          <input class="mdl-textfield__input" style="display:inline;width:auto;" type="password" id="password" name="password" placeholder="Password"/>
+          
+          <br>
+          <input class="mdl-textfield__input" style="display:inline;width:auto;" type="text" id="name" name="name" placeholder="Name"/>
+          
+          <br>
+          <input class="mdl-textfield__input" style="display:inline;width:auto;" type="text" id="major" name="major" placeholder="Major"/>
+          <br>
+          <input class="mdl-textfield__input" style="display:inline;width:auto;" type="number" min="000000000" max="999999999" id="stuId" name="stuId" placeholder="Stu ID#"/>
+          <br>
+
+
+          <div style="display:inline;width:auto;">Expected Grad Year: </div>
+          <select class="mdl-textfield__input" style="display:inline;width:auto;" id="gradYear" name="gradYear">
+            <option value="2019">2019</option>
+            <option value="2020">2020</option>
+            <option value="2021">2021</option>
+            <option value="2022">2022</option>
+          </select> 
+          
+          <br>
+          <button disabled class="mdl-js-button mdl-button--flat" id="quickstart-sign-in" style ="display: none;"name="signin">Sign In</button>
+          &nbsp;&nbsp;&nbsp;
+          <button class="mdl-button mdl-js-button mdl-button--raised" id="quickstart-sign-up" name="signup">Sign Up</button>
+          &nbsp;&nbsp;&nbsp;
+          <button class="mdl-button mdl-js-button mdl-button--raised" disabled id="quickstart-verify-email" name="verify-email">Send Email Verification</button>
+          &nbsp;&nbsp;&nbsp;
+          <button class="mdl-button mdl-js-button mdl-button--flat" id="quickstart-password-reset" style="display: none;"name="verify-email">Send Password Reset Email</button>
+
+        
+          <!-- Container where we'll display the user details -->
+          <div style="display: none;"class="quickstart-user-details-container">
+            Firebase sign-in status: <span id="quickstart-sign-in-status">Unknown</span>
+            <div>Firebase auth <code>currentUser</code> object value:</div>
+            <pre><code id="quickstart-account-details">null</code></pre>
+          </div>
+
+        </div>
+      </div>
+
+    </div>
+    <footer class="page-footer font-small blue pt-4">
+
+        <!-- Footer Links -->
+        <div class="container-fluid text-center text-md-left">
+      
+          <!-- Grid row -->
+          <div class="row">
+      
+            <!-- Grid column -->
+            <div class="col-sm">
+      
+              <!-- Content -->
+              <h5 class="text-uppercase">San Jose State University: <br> The Charles W. Davidson College of Engineering GO Program
+              
+              </h5>
+              <p>Tel: 408-924-3800  
+                <br>Fax: 408-924-3818
+                <br><a href="mailto:engineering@sjsu.edu">engineering@sjsu.edu</a>
+              </p>
+      
+            </div>
+            <!-- Grid column -->
+      
+            <hr class="clearfix w-100 d-md-none pb-3">
+      
+            <!-- Grid column -->
+            <div class="col-sm">
+      
+              <!-- Links -->
+              <h5 class="text-uppercase">Quick Links</h5>
+      
+              <ul class="list-unstyled">
+                <li>
+                  <a href="https://www.engineering.sjsu.edu/go-faq">FAQ</a>
+                </li>
+                <li>
+                  <a href="https://one.sjsu.edu/">MySJSU</a>
+                </li>
+                <li>
+                  <a href="https://engineering.sjsu.edu/">SJSU Engineering</a>
+                </li>
+                <li>
+                  <a href="http://www.sjsu.edu/about/careers/events.php?utm_source=toplevel&utm_medium=301&utm_campaign=newhomepage">Careers & Jobs</a>
+                </li>
+              </ul>
+      
+            </div>
+            <!-- Grid column -->
+      
+      
+      
+      
+            <div class="col-sm">
+      
+              <!-- Links -->
+              <h5 class="text-uppercase">Information For</h5>
+      
+              <ul class="list-unstyled">
+                <li>
+                  <a href="http://alumni.sjsu.edu/s/1771/16/home.aspx?gid=2&pgid=61">Alumni</a>
+                </li>
+                <li>
+                  <a href="http://www.sjsu.edu/academics/index.php?utm_source=toplevel&utm_medium=301&utm_campaign=newhomepage">Current Students</a>
+                </li>
+                <li>
+                  <a href="http://giving.sjsu.edu/s/1771/16/givinghome.aspx?gid=3&pgid=61">Donors</a>
+                </li>
+                <li>
+                  <a href="http://www.sjsu.edu/up/index.html?utm_source=toplevel&utm_medium=301&utm_campaign=newhomepage">Faculty & Staff</a>
+                </li>
+                <li>
+                  <a href="http://www.sjsu.edu/academics/index.php?utm_source=toplevel&utm_medium=301&utm_campaign=newhomepage">Future Students</a>
+                </li>
+                <li>
+                  <a href="http://www.sjsu.edu/academics/research/index.php?utm_source=toplevel&utm_medium=301&utm_campaign=newhomepage">Researchers</a>
+                </li>
+              </ul>
+      
+            </div>
+      
+            <!-- Grid column -->
+            <div class="col-sm">
+      
+              <!-- Links -->
+              <h5 class="text-uppercase">Social</h5>
+      
+              <ul class="list-unstyled">
+                <li>
+                  <a href="https://www.facebook.com/SJSUEngineering">Facebook</a>
+                </li>
+                <li>
+                  <a href="https://www.twitter.com/SJSUEngineering">Twitter</a>
+                </li>
+                <li>
+                  <a href="https://engineering.sjsu.edu/contact">Contact</a>
+                </li>
+                <li>
+                  <a href="https://sjsuone.sjsu.edu/sjsuphonebook/">Directory</a>
+                </li>
+              </ul>
+      
+            </div>
+            <!-- Grid column -->
+      
+          </div>
+          <!-- Grid row -->
+      
+        </div>
+        <!-- Footer Links -->
+      
+      
+      </footer>
+      <!-- Footer -->
+  </main>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.3.1/js/bootstrap.bundle.min.js"></script>
+    
+
+</body>
+</html>

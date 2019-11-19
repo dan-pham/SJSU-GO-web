@@ -1,0 +1,15 @@
+.ban{
+background-image: url('/public/image/go-prog-img-1.jpg') !important;
+  width: 800px !important;
+  height:200px !important;
+}
+.ban h1{
+    color:green !important;
+}
+
+#promo {
+    text-align: center;
+    background:url(/public/image/go-prog-img-1.jpg);
+    background-size: cover;
+    margin-top: 65px;
+}

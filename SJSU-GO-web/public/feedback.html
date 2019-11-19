@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>GO</title>
+    <!-- update the version number as needed -->
+    <!-- <script defer src="/__/firebase/5.11.1/firebase-app.js"></script> -->
+    <!-- include only the Firebase features as you need -->
+    <!-- <script defer src="/__/firebase/5.11.1/firebase-auth.js"></script> -->
+    <!-- <script defer src="/__/firebase/5.11.1/firebase-database.js"></script> -->
+    <!-- <script defer src="/__/firebase/5.11.1/firebase-messaging.js"></script> -->
+    <!-- <script defer src="/__/firebase/5.11.1/firebase-storage.js"></script> -->
+    <!-- initialize the SDK after all desired features are loaded -->
+    <!-- <script defer src="/__/firebase/init.js"></script> -->
+    <link rel="stylesheet" href="./Contact-Form-Clean.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.3.1/css/bootstrap.min.css">
+    
+    <!--<link rel="stylesheet" href="./styles.css">-->
+    
+  </head>
+  <body>
+    <!--<p id="load">Firebase SDK Loading&hellip;</p>-->
+    <nav class="navbar navbar-light navbar-expand-md">
+        <div class="container-fluid"><a class="navbar-brand" href="./dashboard.html">GO Dashboard</a><button class="navbar-toggler" data-toggle="collapse" data-target="#navcol-1"><span class="sr-only">Toggle navigation</span><span class="navbar-toggler-icon"></span></button>
+            <div class="collapse navbar-collapse" id="navcol-1">
+                <ul class="nav navbar-nav ml-auto">
+                    
+                    <li class="nav-item" role="presentation"><a class="btn btn-block" href="./event.html">Submit Form</a></li>
+                   
+                    <!-- <li class="nav-item" role="presentation"><a class="nav-link" href="#">Contact Administrator</a></li> -->
+                    <li class="nav-item" role="presentation" id="logout"><a role="button" class="btn btn-block" href="./index.html" id="sign-out" >Log Out</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <div></div>
+    <div class="contact-clean">
+        <div class="alert"></div> 
+        <form method="post" id="feedbackForm">
+            <h2 class="text-center">Feedback</h2>
+            <div class="form-group"><textarea class="form-control" rows="14" name="message" id="message" placeholder="Leave a message to our Administrator..." required></textarea></div>
+            <div class="form-group"><button class="btn btn-primary" type="submit">Submit</button></div>
+            
+            <!-- NOTE: Try to implement auto population of student's demographics based on account details -->
+        </form>
+    </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.3.1/js/bootstrap.bundle.min.js"></script>
+	  <!-- The core Firebase JS SDK is always required and must be listed first -->
+    <script src="https://www.gstatic.com/firebasejs/5.11.1/firebase-app.js"></script>
+    <!-- Firebase realtime database -->
+	  <script src="https://www.gstatic.com/firebasejs/5.11.1/firebase-database.js"></script>
+    <!-- JS file for sending event form to backend -->
+    <script src="/__/firebase/5.11.1/firebase-auth.js"></script>
+    <script src="feedback.js"></script>
+
+	
+	<!-- NOTE: When setting up authentication, restrict database -->
+	
+	<!-- TODO: Add SDKs for Firebase products that you want to use
+		 https://firebase.google.com/docs/web/setup#config-web-app -->
+  <!--
+    <script>
+      document.addEventListener('DOMContentLoaded', function() {
+        // // 🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥
+        // // The Firebase SDK is initialized and available here!
+        //
+        // firebase.auth().onAuthStateChanged(user => { });
+        // firebase.database().ref('/path/to/ref').on('value', snapshot => { });
+        // firebase.messaging().requestPermission().then(() => { });
+        // firebase.storage().ref('/path/to/ref').getDownloadURL().then(() => { });
+        //
+        // // 🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥
+
+        try {
+          let app = firebase.app();
+          let features = ['auth', 'database', 'messaging', 'storage'].filter(feature => typeof app[feature] === 'function');
+          document.getElementById('load').innerHTML = `Firebase SDK loaded with ${features.join(', ')}`;
+        } catch (e) {
+          console.error(e);
+          document.getElementById('load').innerHTML = 'Error loading the Firebase SDK, check the console.';
+        }
+      });
+    </script>
+    -->
+    <!-- Footer -->
+<footer class="page-footer font-small blue pt-4">
+
+    <!-- Footer Links -->
+    <div class="container-fluid text-center text-md-left">
+  
+      <!-- Grid row -->
+      <div class="row">
+  
+        <!-- Grid column -->
+        <div class="col-sm">
+  
+          <!-- Content -->
+          <h5 class="text-uppercase">San Jose State University: <br> The Charles W. Davidson College of Engineering GO Program
+          
+          </h5>
+          <p>Tel: 408-924-3800  
+            <br>Fax: 408-924-3818
+            <br><a href="mailto:engineering@sjsu.edu">engineering@sjsu.edu</a>
+          </p>
+  
+        </div>
+        <!-- Grid column -->
+  
+        <hr class="clearfix w-100 d-md-none pb-3">
+  
+        <!-- Grid column -->
+        <div class="col-sm">
+  
+          <!-- Links -->
+          <h5 class="text-uppercase">Quick Links</h5>
+  
+          <ul class="list-unstyled">
+            <li>
+              <a href="https://www.engineering.sjsu.edu/go-faq">FAQ</a>
+            </li>
+            <li>
+              <a href="https://one.sjsu.edu/">MySJSU</a>
+            </li>
+            <li>
+              <a href="https://engineering.sjsu.edu/">SJSU Engineering</a>
+            </li>
+            <li>
+              <a href="http://www.sjsu.edu/about/careers/events.php?utm_source=toplevel&utm_medium=301&utm_campaign=newhomepage">Careers & Jobs</a>
+            </li>
+          </ul>
+  
+        </div>
+        <!-- Grid column -->
+  
+  
+  
+  
+        <div class="col-sm">
+  
+          <!-- Links -->
+          <h5 class="text-uppercase">Information For</h5>
+  
+          <ul class="list-unstyled">
+            <li>
+              <a href="http://alumni.sjsu.edu/s/1771/16/home.aspx?gid=2&pgid=61">Alumni</a>
+            </li>
+            <li>
+              <a href="http://www.sjsu.edu/academics/index.php?utm_source=toplevel&utm_medium=301&utm_campaign=newhomepage">Current Students</a>
+            </li>
+            <li>
+              <a href="http://giving.sjsu.edu/s/1771/16/givinghome.aspx?gid=3&pgid=61">Donors</a>
+            </li>
+            <li>
+              <a href="http://www.sjsu.edu/up/index.html?utm_source=toplevel&utm_medium=301&utm_campaign=newhomepage">Faculty & Staff</a>
+            </li>
+            <li>
+              <a href="http://www.sjsu.edu/academics/index.php?utm_source=toplevel&utm_medium=301&utm_campaign=newhomepage">Future Students</a>
+            </li>
+            <li>
+              <a href="http://www.sjsu.edu/academics/research/index.php?utm_source=toplevel&utm_medium=301&utm_campaign=newhomepage">Researchers</a>
+            </li>
+          </ul>
+  
+        </div>
+  
+        <!-- Grid column -->
+        <div class="col-sm">
+  
+          <!-- Links -->
+          <h5 class="text-uppercase">Social</h5>
+  
+          <ul class="list-unstyled">
+            <li>
+              <a href="https://www.facebook.com/SJSUEngineering">Facebook</a>
+            </li>
+            <li>
+              <a href="https://www.twitter.com/SJSUEngineering">Twitter</a>
+            </li>
+            <li>
+              <a href="https://engineering.sjsu.edu/contact">Contact</a>
+            </li>
+            <li>
+              <a href="https://sjsuone.sjsu.edu/sjsuphonebook/">Directory</a>
+            </li>
+          </ul>
+  
+        </div>
+        <!-- Grid column -->
+  
+      </div>
+      <!-- Grid row -->
+  
+    </div>
+    <!-- Footer Links -->
+  
+  
+  </footer>
+  <!-- Footer -->
+    
+  </body>
+</html>
